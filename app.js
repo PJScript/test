@@ -12,7 +12,6 @@ app.get('/', (req,res) => {
 
 app.get('/group', (req,res) => {
   res.sendFile(__dirname + '/public/home.html');
-
 })
 
 app.get('/make' , (req,res) => {
@@ -45,7 +44,6 @@ app.get('/success', (req,res) => {
 app.get('/result', (req,res) => {
   res.sendFile(__dirname + "/public/result.html")
 })
-
 
 app.get('/nicknamedone' , (req,res) => {
   res.sendFile(__dirname + "/public/addnicknamedone.html")
