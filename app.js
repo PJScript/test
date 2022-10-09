@@ -3,7 +3,7 @@ const path = require('path')
 const app = express()
 
 
-app.use(express.static('public'))
+app.use(express.static('http://ec2-3-34-142-19.ap-northeast-2.compute.amazonaws.com:8080/public'))
 
 
 app.get('/', (req,res) => {
