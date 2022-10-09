@@ -7,7 +7,12 @@ app.use(express.static('public'))
 
 
 app.get('/', (req,res) => {
+  res.redirect("/group")
+})
+
+app.get('/group', (req,res) => {
   res.sendFile(__dirname + '/public/home.html');
+
 })
 
 app.get('/make' , (req,res) => {
