@@ -1,0 +1,30 @@
+.table{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    font-size: 14px;
+}
+
+.table-header{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(128,128,128,0.2)
+}
+
+
+.table-item{
+    padding:6px;
+    text-align: center;
+    width:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:30px;
+    border:1px solid gray;
+    /* box-sizing: border-box; */
+}
+
+.table-body{
+
+}
