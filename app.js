@@ -94,7 +94,8 @@ app.post(`/join`, (req,res) => {
     if(result.length <= 0){
       res.status(404).json("존재하지 않는 group 입니다")
     }else{
-      res.json("join")
+
+      res.status(200).json("join")
     }
   })
 
