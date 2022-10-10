@@ -89,14 +89,14 @@ app.post(`/join`, (req,res) => {
   console.log(req.body.group_code)
 
   const sql = {group_code:req.body.group_code}
-  con.query(`select * from rooms where id = ?`,sql, (err,result) => {
+  con.query(`select * from rooms where group_code = ?`,sql, (err,result) => {
     console.log(result,"result")
+    if(result.length <= 0){
+      res.status(404).json("존재하지 않는 group 입니다")
+    }else{
+      res.json("join")
+    }
   })
-
-  if(req.body.group_code === '817c3c6e-3187-46a6-befb-7217eaed7b33'){
-
-    res.json("join")
-  }
 
 })
 
