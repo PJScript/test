@@ -86,7 +86,13 @@ app.get('/nicknamedone' , (req,res) => {
 
 
 app.post(`/join`, (req,res) => {
-  console.log(req.body)
+  console.log(req.body.group_code)
+
+  const sql = {group_code:req.body.group_code}
+  con.query(`select * from rooms where id = ?`,sql, (err,result) => {
+    console.log(ressult,"result")
+  })
+
   if(req.body.group_code === '817c3c6e-3187-46a6-befb-7217eaed7b33'){
 
     res.json("join")
