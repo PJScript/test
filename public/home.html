@@ -12,6 +12,13 @@
 </head>
 
 <body>
+  <script>
+    const handleMakeGroupClick = () => {
+      fetch(`http:127.0.0.1:8080`).then((response) => {
+console.log(response)
+      })
+    }
+  </script>
   <div class="base-container">
     <div class="nav flex">
       <div>
@@ -84,9 +91,11 @@
       </div>
 
       <div class="flex" style="margin-top: 10px;">
-        <button class="button hover" style="margin-right: 4px; background-color: rgb(46,132,211,0.8); color:white;">그룹
-          만들기</button>
-        <button class="button hover" style="background-color:rgb(76,76,76,0.9); color:white;">그룹 코드로 들어가기</button>
+        <button class="button hover" style="margin-right: 4px; background-color: rgb(46,132,211,0.8); color:white;">
+          <a href="/make">그룹 만들기 </a></button>
+        <button class="button hover" style="background-color:rgb(76,76,76,0.9); color:white;">
+        <a href="/join">그룹 코드로 들어가기</a>   
+        </button>
       </div>
 
 

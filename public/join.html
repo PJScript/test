@@ -11,6 +11,32 @@
 </head>
 
 <body>
+    <script>
+        let group_code = ""
+        const handleChangeGroupCode = (e) => {
+            var inputValue = document.getElementById('group_code_input').value;
+            console.log(inputValue)
+            //   group_code = e.target.value
+        }
+
+        const handleSubmitClick = async () => {
+            await fetch("http://127.0.0.1:8080/join", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: "Test",
+                    body: "I am testing!",
+                    userId: 1,
+                }),
+            }).then((response) => {
+                return response.json()
+            }).then((data) => {
+console.log(data)
+            })
+        }
+    </script>
 
     <div class="base-container">
         <div class="nav flex">
@@ -33,14 +59,20 @@
                 <br>
                 <br>
 
-                <div>그룹 코드 : <input class="input" /></div>
+                <div>그룹 코드 : <input onchange="handleChangeGroupCode()" class="input" id="group_code_input" /></div>
                 <br>
                 <br>
 
                 <div class="flex row">
-                    <button class="button button-bg-color hover" style="width:80%; margin-right: 10px;">그룹 코드로
-                        들어가기</button>
-                    <button class="button button-bg-color02 hover" style="width:20%;">홈으로</button>
+                    <button onclick="handleSubmitClick()" class="button button-bg-color hover" style="width:80%; margin-right: 10px;">
+
+                        그룹 코드로 들어가기
+                    </button>
+                    <button class="button button-bg-color02 hover" style="width:20%;">
+                        <a href="/">
+                            홈으로
+                        </a>
+                    </button>
                 </div>
             </div>
 
