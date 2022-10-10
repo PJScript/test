@@ -17,7 +17,6 @@
             var inputValue = document.getElementById('group_code_input').value;
             console.log(inputValue)
             group_code = inputValue
-            sessionStorage.setItem('sg_group_code',group_code)
             //   group_code = e.target.value
         }
 
@@ -38,6 +37,7 @@
                     alert('존재하지 않는 group 입니다')
                         return;
                 }
+                
                 fetch(`/login?id=${sessionStorage.getItem('sg_group_code')}`).then((response) => {
                     if (response.status === 200) {
                         window.location.href = `/login?id=${sessionStorage.getItem('sg_group_code')}`
