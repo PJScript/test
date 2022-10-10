@@ -3,7 +3,8 @@ const path = require('path')
 const app = express()
 const cors = require('cors')
 
-const mysql = require("mysql");
+const mysql = require("mysql2");
+require('dotenv').config()
 
 const con = mysql.createConnection({
 	host: process.env.HOST,
