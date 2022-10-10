@@ -98,6 +98,11 @@ app.post('/makegroup', (req,res) => {
     console.log(err,"err")
     console.log(rows,"rows")
   })
+
+  con.query(`select * from rooms`, (a,b) => {
+console.log(a,"a")
+console.log(b,"b")
+  })
   console.log(req.body,"makegroup")
   res.json("make group")
 })
