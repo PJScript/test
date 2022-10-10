@@ -84,7 +84,16 @@ app.post(`/join`, (req,res) => {
 
 app.post('/makegroup', (req,res) => {
   const {vote_limit_time,nickname_limit_time,group_name} = req.body
-  const sql = {name:group_name,vote_limit:vote_limit_time,join_limit:nickname_limit_time}
+  const vote_date = new Date()
+  console.log(vote_date,"voteData")
+  vote_date.setHours(vote_date.getHours() + Number(vote_limit_time) )
+  const joined_date = new Date()
+  console.log(joined_date,"joinedDate")
+  joined_date.setHours(joined_date.getHours() + Number(nickname_limit_time))
+
+
+  
+  const sql = {name:group_name,vote_limit:vote_date,join_limit:joined_date}
   con.query(`INSERT INTO rooms set ?`,sql, (err,rows) => {
     console.log(err,"err")
     console.log(rows,"rows")
