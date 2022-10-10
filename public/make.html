@@ -11,6 +11,7 @@
 </head>
 
 <body>
+
     <div class="base-container">
         <div class="nav flex">
             <div>
@@ -29,54 +30,127 @@
             <div>
                 <h2>그룹 만들기</h2>
                 <br>
-                <div>그룹 이름 :<input class="input" /></div>
+                <div>그룹 이름 :<input id="group_name_input" class="input" onchange="onChangeGroupNameinput()" /></div>
                 <br>
-                <div>닉네임 등록 마감시각 : <input class="input" /></div>
-                <br>
-                <div>호감 투표 마감 시각 : <input class="input" /></div>
-                <br>
-                <div class="flex row">
-                    <button class="button button-bg-color hover" style="width:80%; margin-right: 10px;">그룹 만들기!</button>
-                    <button class="button button-bg-color02 hover" style="width:20%">
-                    <a href="/">홈으로</a></button>
-        
-                </div>
-            </div>
-          
-    
-          
-    
-    
-    
-            <div class="footer">
-                <h4 style="color:gray; text-align: center;">마음을 전하는 가장 안전한 방법</h4>
-                <div class="flex row">
-                    <img width="70%" src="assets/logo_horizontal_black.png" />
-    
-                    <img width="30%" height="auto" src="assets/cat01.png" />
-                </div>
-                <br><br />
-    
-                <div style="font-style: italic; color:gray; font-size: 14px;">
-                    <div style="color:black; font-weight: bold; font-size: 16px;">
-                        (주) 솔라버스 (대표:김근형)
+                <div>닉네임 등록 마감시각 :
+                    <select id="nickname_select" onchange="onChangeNicknameSelector()">
+
+                    </select>
+
+                    <br>
+                    <br>
+                    <div>호감 투표 마감 시각 :
+                        <select id="vote_select" onchange="onChangeVoteSelector()">
+
+                        </select>
+                        <br>
+                        <br>
+                        <div class="flex row">
+                            <button class="button button-bg-color hover" style="width:80%; margin-right: 10px;"
+                                onclick="handleMakeGroupClick()">
+                                그룹 만들기!</button>
+                            <button class="button button-bg-color02 hover" style="width:20%">
+                                <a href="/">홈으로</a></button>
+
+                        </div>
                     </div>
-    
-                    <div>
-                        주소:서울특별시 서초구 서초대로 275, 2층 202호
+
+
+
+
+
+
+                    <div class="footer">
+                        <h4 style="color:gray; text-align: center;">마음을 전하는 가장 안전한 방법</h4>
+                        <div class="flex row">
+                            <img width="70%" src="assets/logo_horizontal_black.png" />
+
+                            <img width="30%" height="auto" src="assets/cat01.png" />
+                        </div>
+                        <br><br />
+
+                        <div style="font-style: italic; color:gray; font-size: 14px;">
+                            <div style="color:black; font-weight: bold; font-size: 16px;">
+                                (주) 솔라버스 (대표:김근형)
+                            </div>
+
+                            <div>
+                                주소:서울특별시 서초구 서초대로 275, 2층 202호
+                            </div>
+                            <div>사업자등록번호: 110111-8077061 </div>
+                            <div>E-mail: stringofloveservice@gmail.com</div>
+
+                            이용약관 및 개인정보 처리 방침
+                        </div>
                     </div>
-                    <div>사업자등록번호: 110111-8077061 </div>
-                    <div>E-mail: stringofloveservice@gmail.com</div>
-    
-                    이용약관 및 개인정보 처리 방침
                 </div>
+
+
+
+
             </div>
-        </div>
 
 
 
-       
-    </div>
+            <script>
+                let vote_limit_time = 1;
+                let nickname_limit_time = 1;
+                let group_name = ""
+                const addElement = (select, select2) => {
+                    let i
+                    for (i = 0; i <= 48; i++) {
+                        select.options[i - 1] = new Option(`${i} 시간 후`)
+                        select.options[i - 1].value = i
+                    }
+
+                    for (i = 0; i <= 96; i++) {
+                        select2.options[i - 1] = new Option(`${i} 시간 후`)
+                        select2.options[i - 1].value = i
+                    }
+                }
+
+                const onChangeNicknameSelector = (e) => {
+                    const selector = document.getElementById('nickname_select')
+                    const value = selector.options[selector.selectedIndex].value
+                    nickname_limit_time = value
+                }
+
+                const onChangeVoteSelector = (e) => {
+                    const selector = document.getElementById('vote_select')
+                    const value = selector.options[selector.selectedIndex].value
+                    vote_limit_time = value;
+                }
+
+                const onChangeGroupNameinput = () => {
+                    const group_name_input = document.getElementById('group_name_input')
+                    group_name = group_name_input.value
+                }
+
+                const handleMakeGroupClick = () => {
+                    fetch(`/makegroup`, {
+                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                        mode: 'cors', // no-cors, *cors, same-origin
+                        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                        credentials: 'same-origin', // include, *same-origin, omit
+                        headers: {
+                            'Content-Type': 'application/json'
+                            // 'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: JSON.stringify({
+                            vote_limit_time,
+                            nickname_limit_time,
+                            group_name
+                        }) // body data type must match "Content-Type" header
+                    }).then((response) => {
+                        return response.json(); // parses JSON response into native JavaScript objects
+
+                    }).then((data) => {
+console.log(data,"Data")
+                    })
+                }
+
+                addElement(document.getElementById('nickname_select'), document.getElementById('vote_select'));
+            </script>
 </body>
 
 </html>

@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const app = express()
 const cors = require('cors')
-
+const { v4 } = require('uuid')
 const mysql = require("mysql2");
 require('dotenv').config()
 
@@ -14,12 +14,13 @@ const con = mysql.createConnection({
 	database: process.env.DATABASE_NAME
 });
 
+
+
 con.connect(err => {
 	if (err) console.log("MySQL 연결 실패 : ", err);
 	console.log("MySQL Connected!!!");
 })
-출처: https://jy-tblog.tistory.com/51 [jy.log:티스토리]
-// app.use(express.static('public'))
+app.use(express.static('public'))
 app.use(cors({
   origin:"*"
 }))
@@ -82,6 +83,12 @@ app.post(`/join`, (req,res) => {
 
 
 app.post('/makegroup', (req,res) => {
+  const {vote_limit_time,nickname_limit_time,group_name} = req.body
+  const sql = {name:group_name,vote_limit:vote_limit_time,join_limit:nickname_limit_time}
+  con.query(`INSERT INTO rooms set ?`,sql, (err,rows) => {
+    console.log(err,"err")
+    console.log(rows,"rows")
+  })
   console.log(req.body,"makegroup")
   res.json("make group")
 })
