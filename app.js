@@ -114,8 +114,8 @@ app.post('/makegroup', (req,res) => {
 
 
   
-  const sql = {name:group_name,vote_limit:vote_date.toISOString(),join_limit:joined_date.toISOString(),group_code:v4()}
-  con.query(`INSERT INTO rooms set ?`,sql, (err,rows) => {
+  const sql = {name:group_name,vote_limit:vote_date.toISOString(),join_limit:joined_date.toISOString(),group_code:group_code}
+  con.query(`INSERT INTO rooms set ?`,sql, (err,rows,result) => {
     console.log(err,"err")
     console.log(rows,"rows")
   })
