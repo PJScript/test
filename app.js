@@ -93,7 +93,7 @@ app.post('/makegroup', (req,res) => {
 
 
   
-  const sql = {name:group_name,vote_limit:vote_date,join_limit:joined_date}
+  const sql = {name:group_name,vote_limit:vote_date.toISOString(),join_limit:joined_date.toISOString()}
   con.query(`INSERT INTO rooms set ?`,sql, (err,rows) => {
     console.log(err,"err")
     console.log(rows,"rows")
