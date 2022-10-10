@@ -90,7 +90,7 @@ app.post(`/join`, (req,res) => {
 
   const sql = {group_code:req.body.group_code}
   con.query(`select * from rooms where id = ?`,sql, (err,result) => {
-    console.log(ressult,"result")
+    console.log(result,"result")
   })
 
   if(req.body.group_code === '817c3c6e-3187-46a6-befb-7217eaed7b33'){
