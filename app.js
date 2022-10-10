@@ -89,7 +89,7 @@ app.post(`/join`, (req,res) => {
   console.log(req.body.group_code)
 
   const sql = {group_code:req.body.group_code}
-  con.query(`select * from rooms where group_code = ?`,sql, (err,result) => {
+  con.query(`select * from rooms where group_code = ?`,[req.body.group_code], (err,result) => {
     console.log(result,"result")
     if(result.length <= 0){
       res.status(404).json("존재하지 않는 group 입니다")
