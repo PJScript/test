@@ -28,10 +28,20 @@
         <div class="contentbox flex col between">
             <div>
                 <h2>호감 투표</h2>
-                <div> 그룹 이름 : ㅁㅁ 친구방</div>
-                <div> 그룹코드 :sadfa</div>
-                <div> 그룹 링크:ㅇㄹㅁㄴ</div>
-                <div>호감투표 마감시각: 22년 ~~</div>
+                <div>그룹 이름: 
+                    <span id="group_name"></span>
+                </div>
+                <br>
+                <div>그룹 코드 :<span id="group_code"></span></div>
+                <br>
+
+                <div>그룹 링크 :<span id="group_link"></span></div>
+                <br>
+
+                <div>닉네임 등록 마감 시각:<span id="join_limit_time"></span></div>
+                <br>
+
+                <div>호감 투표 마감 시각:<span id="vote_limit_time"></span></div>
                 <br>
                 <div>호감을 가지고 있는 멤버를 선택해 주세요!</div>
 
@@ -97,6 +107,32 @@
 
     </div>
 
+
+    <script>
+        const group_name = sessionStorage.getItem('sg_group_name')
+        const group_link = sessionStorage.getItem('sg_group_link')
+        const vote_limit_time = sessionStorage.getItem('sg_group_vote_limit')
+        const join_limit_time = sessionStorage.getItem('sg_group_nickname_limit')
+        const group_code = sessionStorage.getItem('sg_group_code')
+
+        const group_name_element = document.getElementById('group_name')
+        const group_link_element = document.getElementById('group_link')
+        const vote_limit_time_element = document.getElementById('vote_limit_time')
+        const join_limit_time_element = document.getElementById('join_limit_time')
+        const group_code_element = document.getElementById('group_code')
+
+        const gn_text_node = document.createTextNode(group_name)
+        const gl_text_node = document.createTextNode(group_link)
+        const vlte_text_node = document.createTextNode(new Date(vote_limit_time).toLocaleString())
+        const jlte_text_node = document.createTextNode(new Date(join_limit_time).toLocaleString())
+        const gc_text_node = document.createTextNode(group_code)
+
+        group_name_element.appendChild(gn_text_node)
+        group_link_element.appendChild(gl_text_node)
+        vote_limit_time_element.appendChild(vlte_text_node)
+        join_limit_time_element.appendChild(jlte_text_node)
+        group_code_element.appendChild(gc_text_node)
+    </script>
 </body>
 
 </html>

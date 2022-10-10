@@ -28,16 +28,25 @@
         <div class="contentbox flex col between">
             <div>
                 <h3>호감 투표 닉네임 등록</h3>
-                <div>그룹 이름 : ㅁㅁ 친구방</div>
-                <div>그룹 코드 : sadfjkasldfjlska</div>
-                <div>그룹 링크 : http:sadfasf</div>
-                <div>닉네임 등록 마감 시간:22년 ~</div>
-                <div>호감 투표 마감 시각: 22년 ~</div>
+                <div>그룹 이름:
+                    <span id="group_name"></span>
+                </div>
+                <br>
+                <div>그룹 코드 :<span id="group_code"></span></div>
+                <br>
+
+                <div>그룹 링크 :<span id="group_link"></span></div>
+                <br>
+
+                <div>닉네임 등록 마감 시각:<span id="join_limit_time"></span></div>
+                <br>
+
+                <div>호감 투표 마감 시각:<span id="vote_limit_time"></span></div>
                 <br>
 
                 <div class="flex col">
                     <div style="margin-bottom: 4px;">
-                        닉네임 <input class="input" />
+                        닉네임 <input id="nickname_input" class="input" onchange="onChangeNicknameInput()"/>
                     </div>
                     <div style="color:gray; font-size:14px">
                         (그룹 멤버들이 알아볼 수 있는 닉네임을 설정해 주세요. 그룹 내에 동명이인이 있어도 구분 가능하게 설정해야 합니다. ex:안경 쓴 홍길동)
@@ -45,15 +54,16 @@
 
                 </div>
                 <br>
-                <div>비밀번호 <input class="input" /></div>
+                <div>비밀번호 <input id="pw_input" class="input" onchange="onChangePwInput()"/></div>
                 <br>
-                <div>비밀번호 확인 <input class="input" /></div>
+                <div>비밀번호 확인 <input id="pw_check_input" class="input" onchange="onChangePwInputCheck()"/></div>
                 <br>
                 <div>호감 투표 시작 및 결과 발표 알림 받기 <input type="checkbox" /></div>
                 <br>
                 <div class="flex row">
-                    <button class="button button-bg-color hover" style="margin-right:10px; width:80%;">닉네임 등록
-                        완료!</button>
+                    <button class="button button-bg-color hover" style="margin-right:10px; width:80%;"
+                        onclick="handleSubmit()">
+                        닉네임 등록 완료!</button>
                     <button class="button button-bg-color02 hover" style="width:20%;">홈으로</button>
                 </div>
             </div>
@@ -88,6 +98,80 @@
 
     </div>
 
+
+    <script>
+        const group_name = sessionStorage.getItem('sg_group_name')
+        const group_link = sessionStorage.getItem('sg_group_link')
+        const vote_limit_time = sessionStorage.getItem('sg_group_vote_limit')
+        const join_limit_time = sessionStorage.getItem('sg_group_nickname_limit')
+        const group_code = sessionStorage.getItem('sg_group_code')
+
+        const group_name_element = document.getElementById('group_name')
+        const group_link_element = document.getElementById('group_link')
+        const vote_limit_time_element = document.getElementById('vote_limit_time')
+        const join_limit_time_element = document.getElementById('join_limit_time')
+        const group_code_element = document.getElementById('group_code')
+
+        const gn_text_node = document.createTextNode(group_name)
+        const gl_text_node = document.createTextNode(group_link)
+        const vlte_text_node = document.createTextNode(new Date(vote_limit_time).toLocaleString())
+        const jlte_text_node = document.createTextNode(new Date(join_limit_time).toLocaleString())
+        const gc_text_node = document.createTextNode(group_code)
+
+        group_name_element.appendChild(gn_text_node)
+        group_link_element.appendChild(gl_text_node)
+        vote_limit_time_element.appendChild(vlte_text_node)
+        join_limit_time_element.appendChild(jlte_text_node)
+        group_code_element.appendChild(gc_text_node)
+
+
+
+        let nickname = ""
+        let pw = ""
+        let pw_check = ""
+
+
+        const onChangeNicknameInput = () => {
+            const nickname_input_value = document.getElementById('nickname_input').value
+            nickname = nickname_input_value
+        }
+
+        const onChangePwInput = () => {
+            const pw_input_value = document.getElementById('pw_input').value
+            pw = pw_input_value
+        }
+
+        const onChangePwInputCheck = () => {
+            const pw_input_check_value = document.getElementById('pw_check_input').value
+            pw_check = pw_input_check_value
+        }
+
+        const handleSubmit = () => {
+            fetch('/addnickname', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    nickname,
+                    pw,
+                    pw_check,
+                    group_code:sessionStorage.getItem('sg_group_code')
+                })
+            }).then((response) => {
+                if(response.status === 401){
+                    alert('비밀번호, 비밀번호 확인 칸을 다시한번 확인 해주세요')
+                    return;
+                }else{
+                    alert('닉네임이 정상적으로 등록 되었습니다!')
+                    window.location.href = '/vote'
+                }
+                return response.json()
+            }).then((data) => {
+                console.log(data, "Data")
+            })
+        }
+    </script>
 </body>
 
 </html>

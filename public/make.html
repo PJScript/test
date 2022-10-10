@@ -126,7 +126,7 @@
                     group_name = group_name_input.value
                 }
 
-                const handleMakeGroupClick = () => {
+                const handleMakeGroupClick = async () => {
                     fetch(`/makegroup`, {
                         method: 'POST', // *GET, POST, PUT, DELETE, etc.
                         mode: 'cors', // no-cors, *cors, same-origin
@@ -141,11 +141,25 @@
                             nickname_limit_time,
                             group_name
                         }) // body data type must match "Content-Type" header
-                    }).then((response) => {
-                        return response.json(); // parses JSON response into native JavaScript objects
+                    }).then( async (response) => {
+                        console.log(response)
+                        if(response.status === 200){
+                            const vote_date = new Date()
+                            vote_date.setHours(vote_date.getHours() + Number(vote_limit_time))
+                            const join_date = new Date()
+                            join_date.setHours(join_date.getHours() + Number(nickname_limit_time))
+                            sessionStorage.setItem('sg_group_name',group_name)
+                            sessionStorage.setItem('sg_group_link',undefined)
+                            sessionStorage.setItem('sg_group_vote_limit',vote_date)
+                            sessionStorage.setItem('sg_group_nickname_limit',join_date)
+                            return response.json()
+                        }                        
+ // parses JSON response into native JavaScript objects
 
                     }).then((data) => {
-console.log(data,"Data")
+                        sessionStorage.setItem('sg_group_code',data.group_code)
+                    window.location.href = '/done'
+
                     })
                 }
 

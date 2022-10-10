@@ -51,7 +51,16 @@ app.get('/addnickname', (req,res) => {
 })
 
 app.get('/login', (req,res) => {
-  res.sendFile(__dirname + "/public/login.html")
+  console.log(req.query.id,"query")
+  if(!req.query.id){
+    res.redirect('/')
+  }else{
+    console.log("test")
+    res.sendFile(__dirname + "/public/login.html")
+
+  }
+  // console.log(req.body,"login")
+
 })
 
 app.get('/join', (req,res) => {
@@ -78,12 +87,17 @@ app.get('/nicknamedone' , (req,res) => {
 
 app.post(`/join`, (req,res) => {
   console.log(req.body)
-  res.json("join")
+  if(req.body.group_code === '817c3c6e-3187-46a6-befb-7217eaed7b33'){
+
+    res.json("join")
+  }
+
 })
 
 
 app.post('/makegroup', (req,res) => {
   const {vote_limit_time,nickname_limit_time,group_name} = req.body
+  const group_code = v4()
   const vote_date = new Date()
   console.log(vote_date,"voteData")
   vote_date.setHours(vote_date.getHours() + Number(vote_limit_time) )
@@ -93,22 +107,25 @@ app.post('/makegroup', (req,res) => {
 
 
   
-  const sql = {name:group_name,vote_limit:vote_date.toISOString(),join_limit:joined_date.toISOString()}
+  const sql = {name:group_name,vote_limit:vote_date.toISOString(),join_limit:joined_date.toISOString(),group_code:v4()}
   con.query(`INSERT INTO rooms set ?`,sql, (err,rows) => {
     console.log(err,"err")
     console.log(rows,"rows")
   })
 
-  con.query(`select * from rooms`, (a,b) => {
-console.log(a,"a")
-console.log(b,"b")
-  })
-  console.log(req.body,"makegroup")
-  res.json("make group")
+
+res.json({group_code})
 })
 
 app.post('/addnickname', (req,res) => {
-  res.json("add nickname")
+  const {nickname,pw,pw_check,group_code} = req.body
+  console.log(req.body)
+  if(pw !== pw_check){
+    res.status(401).json();
+  }
+  
+
+  res.status(200).json("add nickname")
 })
 
 app.post('/vote', (req,res) => {
@@ -117,8 +134,21 @@ app.post('/vote', (req,res) => {
 
 
 app.post('/login', (req,res) => {
-  console.log(req.body,"login")
-  res.json("login")
+  const sql = {group_code:req.query.id}
+  con.query(`select * from where group_code = ?`,sql, (err,result) =>{
+if(err){
+  console.log(err)
+}
+
+console.log(result,"result")
+  })
+  console.log(req.body,"")
+  if(req.body.id !== "admin" || req.body.password !== "admin"){
+    res.status(401).json();
+  }else{
+
+    res.json("login")
+  }
 })
 
 app.post('/')

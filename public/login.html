@@ -11,7 +11,43 @@
 </head>
 
 <body>
+<script>
+    let id = ""
+    let pw = ""
 
+    const onChangeIdInput = () => {
+      const id_element_value = document.getElementById('nickname_input').value
+      console.log(id_element_value,"idvalue")
+      id = id_element_value
+    }
+
+    const onChangePwInput = () => {
+        const pw_element_value = document.getElementById('password_input').value
+       pw = pw_element_value
+    }
+
+    const handleLoginClick = () => {
+        fetch('/login',{
+            method:'POST',
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({
+            id:id,
+            password:pw
+        })
+        }).then((response) => {
+            if(response.status === 401){
+  if(window.confirm('등록되지 않은 닉네임 입니다. 닉네임을 등록 하시겠습니까?')){
+    window.location.href = '/addnickname'
+  }
+            }
+            return response.json()
+        }).then((data) => {
+console.log(data,"Data")
+        })
+    }
+</script>
     <div class="base-container">
         <div class="nav flex">
             <div>
@@ -28,21 +64,29 @@
         <div class="contentbox flex col between">
 <div>
     <h2>호감 투표 로그인</h2>
+    <div>그룹 이름: 
+        <span id="group_name"></span>
+    </div>
     <br>
-    <div>그룹 이름 : ㅁㅁ 친구방</div>
-    <div>그룹 코드 : sadfas그룹명</div>
-    <div>그룹 링크 : http:1asdfas</div>
-    
-<div>호감 투표 마감 시각 :  22년 ~~</div>
+    <div>그룹 코드 :<span id="group_code"></span></div>
+    <br>
 
+    <div>그룹 링크 :<span id="group_link"></span></div>
+    <br>
+
+    <div>닉네임 등록 마감 시각:<span id="join_limit_time"></span></div>
+    <br>
+
+    <div>호감 투표 마감 시각:<span id="vote_limit_time"></span></div>
+    <br>
 <br>
-<div>닉네임 : <input class="input"/> </div>
+<div>닉네임 : <input  id="nickname_input" class="input" onchange="onChangeIdInput()"/> </div>
 <br>
-<div>비밀번호 : <input class="input"/></div>
+<div>비밀번호 : <input type="password" id="password_input" class="input" onchange="onChangePwInput()"/></div>
 <br>
 
 <div class="flex row">
-    <button class="button button-bg-color hover" style="width:80%; margin-right:10px;">호감 투표하기</button>
+    <button class="button button-bg-color hover" style="width:80%; margin-right:10px;" onclick="handleLoginClick()">호감 투표하기</button>
     <button class="button button-bg-color02 hover" style="width:20%;">홈으로</button>
 </div>
 </div>
@@ -76,7 +120,31 @@
 
         
     </div>
+    <script>
+        const group_name = sessionStorage.getItem('sg_group_name')
+        const group_link = sessionStorage.getItem('sg_group_link')
+        const vote_limit_time = sessionStorage.getItem('sg_group_vote_limit')
+        const join_limit_time = sessionStorage.getItem('sg_group_nickname_limit')
+        const group_code = sessionStorage.getItem('sg_group_code')
 
+        const group_name_element = document.getElementById('group_name')
+        const group_link_element = document.getElementById('group_link')
+        const vote_limit_time_element = document.getElementById('vote_limit_time')
+        const join_limit_time_element = document.getElementById('join_limit_time')
+        const group_code_element = document.getElementById('group_code')
+
+        const gn_text_node = document.createTextNode(group_name)
+        const gl_text_node = document.createTextNode(group_link)
+        const vlte_text_node = document.createTextNode(new Date(vote_limit_time).toLocaleString())
+        const jlte_text_node = document.createTextNode(new Date(join_limit_time).toLocaleString())
+        const gc_text_node = document.createTextNode(group_code)
+
+        group_name_element.appendChild(gn_text_node)
+        group_link_element.appendChild(gl_text_node)
+        vote_limit_time_element.appendChild(vlte_text_node)
+        join_limit_time_element.appendChild(jlte_text_node)
+        group_code_element.appendChild(gc_text_node)
+    </script>
 </body>
 
 </html>

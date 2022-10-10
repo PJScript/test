@@ -26,27 +26,31 @@
             </div>
         </div>
         <div class="contentbox flex col between">
-<div>
-<h3>그룹 만들기 완료</h3>
+            <div>
+                <h3>그룹 만들기 완료</h3>
 
-    <div>그룹 이름: ㅁㅁ 친구방</div>
-    <br>
-    <div>그룹 코드 :abcdsaf</div>
-    <br>
+                <div>그룹 이름: 
+                    <span id="group_name"></span>
+                </div>
+                <br>
+                <div>그룹 코드 :<span id="group_code"></span></div>
+                <br>
 
-    <div>그룹 링크 :http:aadsfasf</div>
-    <br>
+                <div>그룹 링크 :<span id="group_link"></span></div>
+                <br>
 
-    <div>닉네임 등록 마감 시각:22년 ~~</div>
-    <br>
+                <div>닉네임 등록 마감 시각:<span id="join_limit_time"></span></div>
+                <br>
 
-<div>호감 투표 마감 시각:22년 ~~</div>
-<br>
-<div class="flex row">
-    <button class="button button-bg-color" style="margin-right:10px; width:80%;">내 그룹 링크 공유하기</button>
-    <button class="button button-bg-color02" style="width:20%;">홈으로</button>
-</div>
-</div>
+                <div>호감 투표 마감 시각:<span id="vote_limit_time"></span></div>
+                <br>
+                <div class="flex row">
+                    <button class="button button-bg-color" style="margin-right:10px; width:80%;">내 그룹 링크 공유하기</button>
+                    <button class="button button-bg-color02" style="width:20%;">
+                    <a href="/">    홈으로</a>
+                    </button>
+                </div>
+            </div>
 
 
 
@@ -54,30 +58,56 @@
                 <h4 style="color:gray; text-align: center;">마음을 전하는 가장 안전한 방법</h4>
                 <div class="flex row">
                     <img width="70%" src="assets/logo_horizontal_black.png" />
-    
+
                     <img width="30%" height="auto" src="assets/cat01.png" />
                 </div>
                 <br><br />
-    
+
                 <div style="font-style: italic; color:gray; font-size: 14px;">
                     <div style="color:black; font-weight: bold; font-size: 16px;">
                         (주) 솔라버스 (대표:김근형)
                     </div>
-    
+
                     <div>
                         주소:서울특별시 서초구 서초대로 275, 2층 202호
                     </div>
                     <div>사업자등록번호: 110111-8077061 </div>
                     <div>E-mail: stringofloveservice@gmail.com</div>
-    
+
                     이용약관 및 개인정보 처리 방침
                 </div>
             </div>
         </div>
 
-        
+
     </div>
 
+
+    <script>
+        const group_name = sessionStorage.getItem('sg_group_name')
+        const group_link = sessionStorage.getItem('sg_group_link')
+        const vote_limit_time = sessionStorage.getItem('sg_group_vote_limit')
+        const join_limit_time = sessionStorage.getItem('sg_group_nickname_limit')
+        const group_code = sessionStorage.getItem('sg_group_code')
+
+        const group_name_element = document.getElementById('group_name')
+        const group_link_element = document.getElementById('group_link')
+        const vote_limit_time_element = document.getElementById('vote_limit_time')
+        const join_limit_time_element = document.getElementById('join_limit_time')
+        const group_code_element = document.getElementById('group_code')
+
+        const gn_text_node = document.createTextNode(group_name)
+        const gl_text_node = document.createTextNode(group_link)
+        const vlte_text_node = document.createTextNode(new Date(vote_limit_time).toLocaleString())
+        const jlte_text_node = document.createTextNode(new Date(join_limit_time).toLocaleString())
+        const gc_text_node = document.createTextNode(group_code)
+
+        group_name_element.appendChild(gn_text_node)
+        group_link_element.appendChild(gl_text_node)
+        vote_limit_time_element.appendChild(vlte_text_node)
+        join_limit_time_element.appendChild(jlte_text_node)
+        group_code_element.appendChild(gc_text_node)
+    </script>
 </body>
 
 </html>
