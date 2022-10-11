@@ -169,21 +169,35 @@ app.post('/vote', (req, res) => {
 
 
 app.post('/login', (req, res) => {
-  const sql = { group_code: req.query.id }
-  con.query(`select * from where group_code = ?`, sql, (err, result) => {
-    if (err) {
-      console.log(err)
+  const {id,password,group_code} = req.body
+  const sql = { group_code }
+  con.query(`select * from users where id = ?`, [id], (err,result) => {
+    let userIndex
+    if(result.length <= 0){
+      res.status(401).json()
+    }else{
+     userIndex = result[0].id
+      con.query(`select * from where group_code = ?`, sql, (err, result) => {
+        if (err) {
+          console.log(err)
+        }
+
+        if(result.length <= 0){
+          res.status(404).json();
+        }else{
+          const groupCode = result[0].group_code
+          const groupIndex = result[0].id
+          con.query(`selct vote_user_id from join_user_rooms where room_id=? and user_id=?`,[groupIndex,userIndex], (err,result) => {
+console.log(result,"vote_user_id")
+          })
+
+        }
+    
+        console.log(result, "result")
+      })
     }
-
-    console.log(result, "result")
   })
-  console.log(req.body, "")
-  if (req.body.id !== "admin" || req.body.password !== "admin") {
-    res.status(401).json();
-  } else {
-
-    res.json("login")
-  }
+  
 })
 
 app.post('/')
