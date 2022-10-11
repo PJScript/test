@@ -130,7 +130,7 @@ app.post('/makegroup', (req, res) => {
 
 app.post('/addnickname', (req, res) => {
   const { nickname, pw, pw_check, group_code } = req.body
-pw = crypto.createHmac('sha256', secret).update(pw).digest('hex');
+const hashed = crypto.createHmac('sha256', secret).update(pw).digest('hex');
 
   con.query(`select * from rooms where group_code = ?`, [group_code], (err, result) => {
     if (result.length <= 0) {
@@ -140,7 +140,7 @@ pw = crypto.createHmac('sha256', secret).update(pw).digest('hex');
       const id = result[0]?.id
       con.query(`select * from users where nickname = ?`, [nickname], (err, result) => {
         if (result.length <= 0) {
-          con.query(`INSERT INTO users set ?`, { nickname, password: pw, joined_room: id }, (err, result) => {
+          con.query(`INSERT INTO users set ?`, { nickname, password: hashed, joined_room: id }, (err, result) => {
             con.query(`INSERT INTO join_user_rooms set ?`, {user_id:result[0].id,room_id:id})
           })
 
