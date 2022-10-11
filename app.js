@@ -4,6 +4,10 @@ const app = express()
 const cors = require('cors')
 const { v4 } = require('uuid')
 const mysql = require("mysql2");
+const crypto = require('crypto');
+
+const secret = 'MySecretKey1$1$234';
+
 require('dotenv').config()
 
 const con = mysql.createConnection({
@@ -126,6 +130,7 @@ app.post('/makegroup', (req, res) => {
 
 app.post('/addnickname', (req, res) => {
   const { nickname, pw, pw_check, group_code } = req.body
+pw = crypto.createHmac('sha256', secret).update(pw).digest('hex');
 
   con.query(`select * from rooms where group_code = ?`, [group_code], (err, result) => {
     if (result.length <= 0) {

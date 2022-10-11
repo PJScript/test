@@ -34,7 +34,8 @@
             },
             body:JSON.stringify({
             id:id,
-            password:pw
+            password:pw,
+            group_code:sessionStorage.getItem('sg_group_code')
         })
         }).then((response) => {
             if(response.status === 401){
