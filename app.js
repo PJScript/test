@@ -136,7 +136,7 @@ app.post('/addnickname', (req, res) => {
       con.query(`select * from users where nickname = ?`, [nickname], (err, result) => {
         if (result.length <= 0) {
           con.query(`INSERT INTO users set ?`, { nickname, password: pw, joined_room: id }, (err, result) => {
-
+            con.query(`INSERT INTO join_user_rooms set ?`, {user_id:result[0].id,room_id:id})
           })
 
         } else {
